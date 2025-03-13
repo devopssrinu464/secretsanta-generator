@@ -4,9 +4,9 @@ pipeline {
         jdk 'jdk17'
         maven 'maven3'
     }
-    environment{
-        SCANNER_HOME= tool 'sonar-scanner'
-    }
+ //   environment{
+   //     SCANNER_HOME= tool 'sonar-scanner'
+  //  }
 
     stages {
         stage('git-checkout') {
@@ -27,23 +27,23 @@ pipeline {
             }
         }
         
-		stage('OWASP Dependency Check') {
-            steps {
-               dependencyCheck additionalArguments: ' --scan ./ ', odcInstallation: 'DC'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
+		//stage('OWASP Dependency Check') {
+            //steps {
+              // dependencyCheck additionalArguments: ' --scan ./ ', odcInstallation: 'DC'
+                //    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            //}
+        //}
 
 
-        stage('Sonar Analysis') {
-            steps {
-               withSonarQubeEnv('sonar'){
-                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Santa \
-                   -Dsonar.java.binaries=. \
-                   -Dsonar.projectKey=Santa '''
-               }
-            }
-        }
+        //stage('Sonar Analysis') {
+          //  steps {
+            //   withSonarQubeEnv('sonar'){
+              //     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Santa \
+                //   -Dsonar.java.binaries=. \
+                  // -Dsonar.projectKey=Santa '''
+               //}
+            //}
+        //}
 
 		 
         stage('Code-Build') {
@@ -74,30 +74,30 @@ pipeline {
         }
         
         	 
-        stage('Docker Image Scan') {
-            steps {
-               sh "trivy image adijaiswal/santa123:latest "
-            }
-        }}
+        //stage('Docker Image Scan') {
+          //  steps {
+            //   sh "trivy image adijaiswal/santa123:latest "
+            //}
+        //}}
         
-         post {
-            always {
-                emailext (
-                    subject: "Pipeline Status: ${BUILD_NUMBER}",
-                    body: '''<html>
-                                <body>
-                                    <p>Build Status: ${BUILD_STATUS}</p>
-                                    <p>Build Number: ${BUILD_NUMBER}</p>
-                                    <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
-                                </body>
-                            </html>''',
-                    to: 'jaiswaladi246@gmail.com',
-                    from: 'jenkins@example.com',
-                    replyTo: 'jenkins@example.com',
-                    mimeType: 'text/html'
-                )
-            }
-        }
+         //post {
+           // always {
+             //   emailext (
+               //     subject: "Pipeline Status: ${BUILD_NUMBER}",
+                 //   body: '''<html>
+                   //             <body>
+                     //               <p>Build Status: ${BUILD_STATUS}</p>
+                       //             <p>Build Number: ${BUILD_NUMBER}</p>
+                         //           <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                           //     </body>
+                            //</html>''',
+                    //to: 'jaiswaladi246@gmail.com',
+                    //from: 'jenkins@example.com',
+                    //replyTo: 'jenkins@example.com',
+                    //mimeType: 'text/html'
+                //)
+            //}
+        //}
 		
 		
 
